@@ -26,6 +26,7 @@ const init = () => {
 
   // Hide dice image at start of the game, set all values to 0
   document.getElementById('dice-1').style.display = 'none';
+  document.getElementById('dice-2').style.display = 'none';
   document.getElementById('score-0').textContent = '0';
   document.getElementById('score-1').textContent = '0';
   document.getElementById('current-0').textContent = '0';
@@ -41,8 +42,6 @@ const init = () => {
 
 init();
 
-let lastDice;
-
 const nextPlayer = () => {
   // Switch player and set roundScore = 0
   activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
@@ -55,6 +54,7 @@ const nextPlayer = () => {
   document.querySelector('.player-1-panel').classList.toggle('active');
   //Remove the dice from the UI
   document.getElementById('dice-1').style.display = 'none';
+  document.getElementById('dice-2').style.display = 'none';
 };
 
 // Set up dice click event
@@ -62,25 +62,25 @@ document.querySelector('.btn-roll').addEventListener('click', () => {
   if (isGamePlaying) {
     // Roll random number
     const dice1 = Math.floor(Math.random() * 6) + 1;
+    const dice2 = Math.floor(Math.random() * 6) + 1;
 
     // Display dice image with rolled number
     document.getElementById('dice-1').style.display = 'block';
+    document.getElementById('dice-2').style.display = 'block';
     document.getElementById('dice-1').src = `dice-${dice1}.png`;
+    document.getElementById('dice-2').src = `dice-${dice2}.png`;
 
-    // Loose entire score if player rolls two 6 in a row
-    if (dice1 === 6 && lastDice === 6) {
-      scores[activePlayer] = 0;
-      document.querySelector(`#score-${activePlayer}`).textContent = '0';
-      nextPlayer();
-    } else if (dice1 !== 1) {
+    // Update score only if the roll !== 1 otherwise change current score and switch activePlayer
+    if (dice1 !== 1 && dice2 !== 1) {
       // Add score
-      roundScore += dice1;
-      document.querySelector(`#score-${activePlayer}`).textContent = roundScore;
+      roundScore += dice1 + dice2;
+      // Display and add the current active player's score
+      document.querySelector(
+        `#current-${activePlayer}`
+      ).textContent = roundScore;
     } else {
       nextPlayer();
     }
-
-    lastDice = dice1;
   }
 });
 
@@ -106,6 +106,7 @@ document.querySelector('.btn-hold').addEventListener('click', () => {
       // Update UI
       document.querySelector(`#name-${activePlayer}`).textContent = 'Winner!';
       document.getElementById('dice-1').style.display = 'none';
+      document.getElementById('dice-2').style.display = 'none';
       document
         .querySelector(`.player-${activePlayer}-panel`)
         .classList.add('winner');
@@ -114,7 +115,7 @@ document.querySelector('.btn-hold').addEventListener('click', () => {
         .classList.remove('active');
       isGamePlaying = false;
     } else {
-      // Switch player - At this point to keep DRY create a func and add it here
+      // Switch player
       nextPlayer();
     }
   }
