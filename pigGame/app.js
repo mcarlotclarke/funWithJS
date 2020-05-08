@@ -18,18 +18,27 @@ NEXT level of rules:
 // Declare needed variables
 let scores, roundScore, activePlayer;
 
-scores = [0, 0];
-roundScore = 0;
-activePlayer = 0;
+const init = () => {
+  scores = [0, 0];
+  roundScore = 0;
+  activePlayer = 0;
 
-// Hide dice image at start of the game, set all values to 0
-document.getElementById('dice-1').style.display = 'none';
-document.getElementById('score-0').textContent = '0';
-document.getElementById('score-1').textContent = '0';
-document.getElementById('current-0').textContent = '0';
-document.getElementById('current-1').textContent = '0';
-document.getElementById('name-0').textContent = 'Player 1';
-document.getElementById('name-1').textContent = 'Player 2';
+  // Hide dice image at start of the game, set all values to 0
+  document.getElementById('dice-1').style.display = 'none';
+  document.getElementById('score-0').textContent = '0';
+  document.getElementById('score-1').textContent = '0';
+  document.getElementById('current-0').textContent = '0';
+  document.getElementById('current-1').textContent = '0';
+  document.getElementById('name-0').textContent = 'Player 1';
+  document.getElementById('name-1').textContent = 'Player 2';
+  document.querySelector(`.player-0-panel`).classList.remove('winner');
+  document.querySelector(`.player-1-panel`).classList.remove('winner');
+  document.querySelector(`.player-0-panel`).classList.remove('active');
+  document.querySelector(`.player-1-panel`).classList.remove('active');
+  document.querySelector(`.player-0-panel`).classList.add('active');
+};
+
+init();
 
 const nextPlayer = () => {
   // Switch player and set roundScore = 0
@@ -96,3 +105,5 @@ document.querySelector('.btn-hold').addEventListener('click', () => {
     nextPlayer();
   }
 });
+
+document.querySelector('.btn-new').addEventListener('click', init);
