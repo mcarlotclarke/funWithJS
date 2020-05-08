@@ -41,6 +41,8 @@ const init = () => {
 
 init();
 
+let lastDice;
+
 const nextPlayer = () => {
   // Switch player and set roundScore = 0
   activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0);
@@ -65,13 +67,20 @@ document.querySelector('.btn-roll').addEventListener('click', () => {
     document.getElementById('dice-1').style.display = 'block';
     document.getElementById('dice-1').src = `dice-${dice1}.png`;
 
-    if (dice1 !== 1) {
+    // Loose entire score if player rolls two 6 in a row
+    if (dice1 === 6 && lastDice === 6) {
+      scores[activePlayer] = 0;
+      document.querySelector(`#score-${activePlayer}`).textContent = '0';
+      nextPlayer();
+    } else if (dice1 !== 1) {
       // Add score
       roundScore += dice1;
       document.querySelector(`#score-${activePlayer}`).textContent = roundScore;
     } else {
       nextPlayer();
     }
+
+    lastDice = dice1;
   }
 });
 
