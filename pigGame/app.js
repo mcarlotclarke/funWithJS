@@ -16,12 +16,13 @@ NEXT level of rules:
 */
 
 // Declare needed variables
-let scores, roundScore, activePlayer;
+let scores, roundScore, activePlayer, isGamePlaying;
 
 const init = () => {
   scores = [0, 0];
   roundScore = 0;
   activePlayer = 0;
+  isGamePlaying = true; // State variable to check if game is/not continuing and stop dice roll
 
   // Hide dice image at start of the game, set all values to 0
   document.getElementById('dice-1').style.display = 'none';
@@ -56,53 +57,57 @@ const nextPlayer = () => {
 
 // Set up dice click event
 document.querySelector('.btn-roll').addEventListener('click', () => {
-  // Roll random number
-  const dice1 = Math.floor(Math.random() * 6) + 1;
+  if (isGamePlaying) {
+    // Roll random number
+    const dice1 = Math.floor(Math.random() * 6) + 1;
 
-  // Display dice image with rolled number
-  document.getElementById('dice-1').style.display = 'block';
+    // Display dice image with rolled number
+    document.getElementById('dice-1').style.display = 'block';
+    document.getElementById('dice-1').src = `dice-${dice1}.png`;
 
-  document.getElementById('dice-1').src = `dice-${dice1}.png`;
-
-  if (dice1 !== 1) {
-    // Add score
-    roundScore += dice1;
-    document.querySelector(`#score-${activePlayer}`).textContent = roundScore;
-  } else {
-    nextPlayer();
+    if (dice1 !== 1) {
+      // Add score
+      roundScore += dice1;
+      document.querySelector(`#score-${activePlayer}`).textContent = roundScore;
+    } else {
+      nextPlayer();
+    }
   }
 });
 
 // Implement hold/add function
 document.querySelector('.btn-hold').addEventListener('click', () => {
-  // Add current score to score
-  scores[activePlayer] += roundScore;
-  // Update UI with score
-  document.querySelector(`#score-${activePlayer}`).textContent =
-    scores[activePlayer];
-  // Grab input score
-  const scoreInput = document.querySelector('.final-score').value;
-  let winningScore;
-  // If input score is valid (not a falsey value) set the winning score
-  if (scoreInput) {
-    winningScore = scoreInput;
-  } else {
-    winningScore = 100;
-  }
-  // Check if player won the game
-  if (scores[activePlayer] >= winningScore) {
-    // Update UI
-    document.querySelector(`#name-${activePlayer}`).textContent = 'Winner!';
-    document.getElementById('dice-1').style.display = 'none';
-    document
-      .querySelector(`.player-${activePlayer}-panel`)
-      .classList.add('winner');
-    document
-      .querySelector(`.player-${activePlayer}-panel`)
-      .classList.remove('active');
-  } else {
-    // Switch player - At this point to keep DRY create a func and add it here
-    nextPlayer();
+  if (isGamePlaying) {
+    // Add current score to score
+    scores[activePlayer] += roundScore;
+    // Update UI with score
+    document.querySelector(`#score-${activePlayer}`).textContent =
+      scores[activePlayer];
+    // Grab input score
+    const scoreInput = document.querySelector('.final-score').value;
+    let winningScore;
+    // If input score is valid (not a falsey value) set the winning score
+    if (scoreInput) {
+      winningScore = scoreInput;
+    } else {
+      winningScore = 100;
+    }
+    // Check if player won the game
+    if (scores[activePlayer] >= winningScore) {
+      // Update UI
+      document.querySelector(`#name-${activePlayer}`).textContent = 'Winner!';
+      document.getElementById('dice-1').style.display = 'none';
+      document
+        .querySelector(`.player-${activePlayer}-panel`)
+        .classList.add('winner');
+      document
+        .querySelector(`.player-${activePlayer}-panel`)
+        .classList.remove('active');
+      isGamePlaying = false;
+    } else {
+      // Switch player - At this point to keep DRY create a func and add it here
+      nextPlayer();
+    }
   }
 });
 
