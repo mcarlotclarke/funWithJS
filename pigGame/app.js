@@ -63,3 +63,36 @@ document.querySelector('.btn-roll').addEventListener('click', () => {
     nextPlayer();
   }
 });
+
+// Implement hold/add function
+document.querySelector('.btn-hold').addEventListener('click', () => {
+  // Add current score to score
+  scores[activePlayer] += roundScore;
+  // Update UI with score
+  document.querySelector(`#score-${activePlayer}`).textContent =
+    scores[activePlayer];
+  // Grab input score
+  const scoreInput = document.querySelector('.final-score').value;
+  let winningScore;
+  // If input score is valid (not a falsey value) set the winning score
+  if (scoreInput) {
+    winningScore = scoreInput;
+  } else {
+    winningScore = 100;
+  }
+  // Check if player won the game
+  if (scores[activePlayer] >= winningScore) {
+    // Update UI
+    document.querySelector(`#name-${activePlayer}`).textContent = 'Winner!';
+    document.getElementById('dice-1').style.display = 'none';
+    document
+      .querySelector(`.player-${activePlayer}-panel`)
+      .classList.add('winner');
+    document
+      .querySelector(`.player-${activePlayer}-panel`)
+      .classList.remove('active');
+  } else {
+    // Switch player - At this point to keep DRY create a func and add it here
+    nextPlayer();
+  }
+});
