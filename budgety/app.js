@@ -93,6 +93,20 @@ const uiController = (() => {
       document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
     },
 
+    clearFields: () => {
+      const fields = document.querySelectorAll(
+        `${domStrings.inputDescription}, ${domStrings.inputValue}`
+      );
+      // querySelector returns a list - convert to an array
+      const fieldsArr = Array.prototype.slice.call(fields);
+
+      fieldsArr.forEach((current) => {
+        current.value = '';
+      });
+
+      fieldsArr[0].focus();
+    },
+
     getDomStrings: () => {
       return domStrings;
     },
@@ -115,8 +129,12 @@ const controller = ((budgetCtrl, uiCtrl) => {
 
     // 3. Add the item to the UI
     uiCtrl.addListItem(newItem, input.type);
-    // 4. Calculate budget
-    // 5. Display the budget on the UI
+
+    // 4. Clear fields
+    uiCtrl.clearFields();
+
+    // 5. Calculate budget
+    // 6. Display the budget on the UI
   };
 
   const setUpEventListeners = () => {
