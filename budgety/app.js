@@ -47,6 +47,11 @@ const budgetController = (() => {
       // Return new element
       return newItem;
     },
+
+    // to test our app temporarily
+    testing: () => {
+      console.log(data);
+    },
   };
 })();
 
@@ -66,7 +71,7 @@ const uiController = (() => {
       return {
         type: document.querySelector(domStrings.inputType).value, // Will be either inc or exp
         description: document.querySelector(domStrings.inputDescription).value,
-        value: document.querySelector(domStrings.inputValue).value,
+        value: parseFloat(document.querySelector(domStrings.inputValue).value),
       };
     },
 
@@ -116,25 +121,33 @@ const uiController = (() => {
 // App controller -> central place to decide and control what happens in each event and delegate tasks to other controllers
 // Takes two parameters - Then we pass the UI and budget controllers as arguments to the IIFE
 const controller = ((budgetCtrl, uiCtrl) => {
+  const updateBudget = () => {
+    // 1. Calculate budget
+    // 2. Return the budget
+    // 3. Display the budget on the UI
+  };
+
   const controllerAddItem = () => {
     // 1. Get the input field data
     const input = uiCtrl.getInput();
 
-    // 2. Add the item to the budget controller
-    const newItem = budgetCtrl.addItem(
-      input.type,
-      input.description,
-      input.value
-    );
+    if (input.description !== '' && !isNaN(input.value) && input.value > 0) {
+      // 2. Add the item to the budget controller
+      const newItem = budgetCtrl.addItem(
+        input.type,
+        input.description,
+        input.value
+      );
 
-    // 3. Add the item to the UI
-    uiCtrl.addListItem(newItem, input.type);
+      // 3. Add the item to the UI
+      uiCtrl.addListItem(newItem, input.type);
 
-    // 4. Clear fields
-    uiCtrl.clearFields();
+      // 4. Clear fields
+      uiCtrl.clearFields();
 
-    // 5. Calculate budget
-    // 6. Display the budget on the UI
+      // 5. Calculate and update budget
+      updateBudget();
+    }
   };
 
   const setUpEventListeners = () => {
