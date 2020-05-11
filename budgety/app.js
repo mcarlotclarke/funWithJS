@@ -78,8 +78,8 @@ const budgetController = (() => {
     getBudget: () => {
       return {
         budget: data.budget,
-        inc: data.totals.inc,
-        exp: data.totals.exp,
+        totalInc: data.totals.inc,
+        totalExp: data.totals.exp,
         percentage: data.percentage,
       };
     },
@@ -100,6 +100,10 @@ const uiController = (() => {
     inputButton: '.add__btn',
     incomeContainer: '.income__list',
     expensesContainer: '.expenses__list',
+    budgetLabel: '.budget__value',
+    incomeLabel: '.budget__income--value',
+    expensesLabel: '.budget__expenses--value',
+    percentageLabel: '.budget__expenses--percentage',
   };
 
   return {
@@ -146,6 +150,22 @@ const uiController = (() => {
       });
 
       fieldsArr[0].focus();
+    },
+
+    displayBudget: (budgetObj) => {
+      document.querySelector(domStrings.budgetLabel).textContent =
+        budgetObj.budget;
+      document.querySelector(domStrings.incomeLabel).textContent =
+        budgetObj.totalInc;
+      document.querySelector(domStrings.expensesLabel).textContent =
+        budgetObj.totalExp;
+
+      if (budgetObj.percentage > 0) {
+        document.querySelector(domStrings.percentageLabel).textContent =
+          budgetObj.percentage + '%';
+      } else {
+        document.querySelector(domStrings.percentageLabel).textContent = '---';
+      }
     },
 
     getDomStrings: () => {
@@ -201,11 +221,17 @@ const controller = ((budgetCtrl, uiCtrl) => {
     const budget = budgetCtrl.getBudget();
 
     // 3. Display the budget on the UI
-    console.log(budget);
+    uiCtrl.displayBudget(budget);
   };
 
   return {
     init: () => {
+      uiCtrl.displayBudget({
+        budget: 0,
+        totalInc: 0,
+        totalExp: 0,
+        percentage: -1,
+      });
       setUpEventListeners();
     },
   };
