@@ -169,6 +169,12 @@ const uiController = (() => {
     return (type === 'exp' ? '-' : '+') + ' ' + int + '.' + decimal;
   };
 
+  const nodeListForEach = (list, callback) => {
+    for (let i = 0; i < list.length; i++) {
+      callback(list[i], i);
+    }
+  };
+
   return {
     getInput: () => {
       return {
@@ -250,12 +256,6 @@ const uiController = (() => {
         domStrings.expensesPercentagelabel
       );
 
-      const nodeListForEach = (list, callback) => {
-        for (let i = 0; i < list.length; i++) {
-          callback(list[i], i);
-        }
-      };
-
       nodeListForEach(fields, (current, index) => {
         if (percentages[index] > 0) {
           current.textContent = percentages[index] + '%';
@@ -290,6 +290,18 @@ const uiController = (() => {
       ).textContent = `${months[month]} ${year}`;
     },
 
+    changeType: () => {
+      const fields = document.querySelectorAll(
+        `${domStrings.inputType}, ${domStrings.inputDescription}, ${domStrings.inputValue}`
+      );
+
+      nodeListForEach(fields, (current) => {
+        current.classList.toggle('red-focus');
+      });
+
+      document.querySelector(domStrings.inputButton).classList.toggle('red');
+    },
+
     getDomStrings: () => {
       return domStrings;
     },
@@ -313,6 +325,9 @@ const controller = ((budgetCtrl, uiCtrl) => {
     document
       .querySelector(domStringsUICtrl.container)
       .addEventListener('click', controllerDeleteItem);
+    document
+      .querySelector(domStringsUICtrl.inputType)
+      .addEventListener('change', uiCtrl.changeType);
   };
 
   const controllerAddItem = () => {
