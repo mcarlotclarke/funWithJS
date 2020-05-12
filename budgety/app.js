@@ -1,30 +1,34 @@
 // Budget controller
 const budgetController = (() => {
-  // Create constructor functions & data structure
-  const Income = function (id, description, value) {
-    this.id = id;
-    this.description = description;
-    this.value = value;
-  };
+  // Create classes & data structure
+  class Income {
+    constructor(id, description, value) {
+      this.id = id;
+      this.description = description;
+      this.value = value;
+    }
+  }
 
-  const Expense = function (id, description, value) {
-    this.id = id;
-    this.description = description;
-    this.value = value;
-    this.percentage = -1;
-  };
-
-  Expense.prototype.calcPercentage = function (totalIncome) {
-    if (totalIncome > 0) {
-      this.percentage = Math.round((this.value / totalIncome) * 100);
-    } else {
+  class Expense {
+    constructor(id, description, value) {
+      this.id = id;
+      this.description = description;
+      this.value = value;
       this.percentage = -1;
     }
-  };
 
-  Expense.prototype.getPercentage = function () {
-    return this.percentage;
-  };
+    calcPercentage(totalIncome) {
+      if (totalIncome > 0) {
+        this.percentage = Math.round((this.value / totalIncome) * 100);
+      } else {
+        this.percentage = -1;
+      }
+    }
+
+    getPercentage() {
+      return this.percentage;
+    }
+  }
 
   const data = {
     allItems: {
@@ -124,11 +128,6 @@ const budgetController = (() => {
         percentage: data.percentage,
       };
     },
-
-    // to test our app temporarily
-    testing: () => {
-      console.log(data);
-    },
   };
 })();
 
@@ -151,14 +150,15 @@ const uiController = (() => {
   };
 
   const formatNumber = (num, type) => {
-    // + or - before income or expense amount
-    // 2 decimal points
-    // Comma separating the thousands
-    num = Math.abs(num);
+    // Add + or - before income or expense amount
+    // Use 2 decimal points
+    // Add comma separating the thousands
+    num = Math.abs(num); // to work with absolute number 20 vs -20
     num = num.toFixed(2);
     const numSplit = num.split('.');
     let int = numSplit[0];
     let decimal = numSplit[1];
+
     if (int.length > 3) {
       int = int = `${int.substr(0, int.length - 3)}, ${int.substr(
         int.length - 3,
@@ -308,8 +308,7 @@ const uiController = (() => {
   };
 })();
 
-// App controller -> central place to decide and control what happens in each event and delegate tasks to other controllers
-// Takes two parameters - Then we pass the UI and budget controllers as arguments to the IIFE
+// App controller
 const controller = ((budgetCtrl, uiCtrl) => {
   const setUpEventListeners = () => {
     const domStringsUICtrl = uiCtrl.getDomStrings();
@@ -416,5 +415,5 @@ const controller = ((budgetCtrl, uiCtrl) => {
   };
 })(budgetController, uiController);
 
-// To execute all the code when app starts like setUpEventListeners
+// To execute all the code when app starts
 controller.init();
