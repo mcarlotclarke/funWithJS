@@ -149,6 +149,25 @@ const uiController = (() => {
     expensesPercentagelabel: '.item__percentage',
   };
 
+  const formatNumber = (num, type) => {
+    // + or - before income or expense amount
+    // 2 decimal points
+    // Comma separating the thousands
+    num = Math.abs(num);
+    num = num.toFixed(2);
+    const numSplit = num.split('.');
+    let int = numSplit[0];
+    let decimal = numSplit[1];
+    if (int.length > 3) {
+      int = int = `${int.substr(0, int.length - 3)}, ${int.substr(
+        int.length - 3,
+        3
+      )}`;
+    }
+
+    return (type === 'exp' ? '-' : '+') + ' ' + int + '.' + decimal;
+  };
+
   return {
     getInput: () => {
       return {
@@ -175,7 +194,7 @@ const uiController = (() => {
       // Replace placeholder text with actual data
       newHtml = html.replace('%id%', obj.id);
       newHtml = newHtml.replace('%description%', obj.description);
-      newHtml = newHtml.replace('%value%', obj.value);
+      newHtml = newHtml.replace('%value%', formatNumber(obj.value, type));
 
       // Insert HTML into the DOM
       document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
@@ -202,12 +221,20 @@ const uiController = (() => {
     },
 
     displayBudget: (budgetObj) => {
-      document.querySelector(domStrings.budgetLabel).textContent =
-        budgetObj.budget;
-      document.querySelector(domStrings.incomeLabel).textContent =
-        budgetObj.totalInc;
-      document.querySelector(domStrings.expensesLabel).textContent =
-        budgetObj.totalExp;
+      let type;
+      budgetObj.budget > 0 ? (type = 'inc') : (type = 'exp');
+
+      document.querySelector(domStrings.budgetLabel).textContent = formatNumber(
+        budgetObj.budget,
+        type
+      );
+      document.querySelector(domStrings.incomeLabel).textContent = formatNumber(
+        budgetObj.totalInc,
+        'inc'
+      );
+      document.querySelector(
+        domStrings.expensesLabel
+      ).textContent = formatNumber(budgetObj.totalExp, 'exp');
 
       if (budgetObj.percentage > 0) {
         document.querySelector(domStrings.percentageLabel).textContent =
