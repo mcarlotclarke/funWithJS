@@ -146,6 +146,7 @@ const uiController = (() => {
     expensesLabel: '.budget__expenses--value',
     percentageLabel: '.budget__expenses--percentage',
     container: '.container',
+    expensesPercentagelabel: '.item__percentage',
   };
 
   return {
@@ -190,7 +191,7 @@ const uiController = (() => {
       const fields = document.querySelectorAll(
         `${domStrings.inputDescription}, ${domStrings.inputValue}`
       );
-      // querySelector returns a list - convert to an array
+      // querySelector returns a node list - convert to an array
       const fieldsArr = Array.prototype.slice.call(fields);
 
       fieldsArr.forEach((current) => {
@@ -214,6 +215,26 @@ const uiController = (() => {
       } else {
         document.querySelector(domStrings.percentageLabel).textContent = '---';
       }
+    },
+
+    displayPercentages: (percentages) => {
+      const fields = document.querySelectorAll(
+        domStrings.expensesPercentagelabel
+      );
+
+      const nodeListForEach = (list, callback) => {
+        for (let i = 0; i < list.length; i++) {
+          callback(list[i], i);
+        }
+      };
+
+      nodeListForEach(fields, (current, index) => {
+        if (percentages[index] > 0) {
+          current.textContent = percentages[index] + '%';
+        } else {
+          current.textContent = '---';
+        }
+      });
     },
 
     getDomStrings: () => {
@@ -310,7 +331,7 @@ const controller = ((budgetCtrl, uiCtrl) => {
     const percentages = budgetCtrl.getPercentages();
 
     // 3. Display the percentage in the UI by expense
-    console.log(percentages);
+    uiCtrl.displayPercentages(percentages);
   };
 
   return {
