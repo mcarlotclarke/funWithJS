@@ -2,4 +2,6 @@
 
 import num from './test';
 
-console.log(`I imported ${num} again to see the change`);
+const x = 23;
+
+console.log(`I imported ${num} again to see the change. ADD variable ${x}`);
