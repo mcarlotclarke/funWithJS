@@ -5,6 +5,7 @@ Documentation URL http://forkify-api.herokuapp.com/
  */
 
 import Search from './models/Search';
+import Recipe from './models/Recipe';
 import * as searchView from './views/searchView';
 import { elements, renderLoader, clearLoader } from './views/base';
 
@@ -16,6 +17,9 @@ import { elements, renderLoader, clearLoader } from './views/base';
 */
 const state = {};
 
+/**
+ * SEARCH CONTROLLER
+ */
 const controlSearch = async () => {
   // 1. Get the query from the view
   const query = searchView.getInput();
@@ -44,6 +48,7 @@ elements.searchForm.addEventListener('submit', (event) => {
 });
 
 elements.searchResultsPages.addEventListener('click', (event) => {
+  // event delegation
   const btn = event.target.closest('.btn-inline');
   if (btn) {
     const goToPage = parseInt(btn.dataset.goto, 10);
@@ -51,3 +56,11 @@ elements.searchResultsPages.addEventListener('click', (event) => {
     searchView.renderResults(state.search.result, goToPage);
   }
 });
+
+/**
+ * RECIPE CONTROLLER
+ */
+
+const recipe = new Recipe(47746);
+recipe.getRecipe();
+console.log(recipe);
