@@ -4,6 +4,7 @@ export const elements = {
   searchResults: document.querySelector('.results'),
   searchResultsList: document.querySelector('.results__list'),
   searchResultsPages: document.querySelector('.results__pages'),
+  recipe: document.querySelector('.recipe'),
 };
 
 // To better maintain code and if we update class html or css
