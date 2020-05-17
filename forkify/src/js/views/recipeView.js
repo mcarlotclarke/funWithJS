@@ -9,18 +9,20 @@ const formatCount = (count) => {
   if (count) {
     // count = 2.5 --> 5/2 --> 2 1/2
     // count = 0.5 --> 1/2
-    const [integer, decimal] = count
+    // 10000 to round to 4 decimal points
+    const newCount = Math.round(count * 10000) / 10000;
+    const [integer, decimal] = newCount
       .toString()
       .split('.')
       .map((el) => parseInt(el, 10));
 
-    if (!decimal) return count;
+    if (!decimal) return newCount;
 
     if (integer === 0) {
-      const fraction = new Fraction(count);
+      const fraction = new Fraction(newCount);
       return `${fraction.numerator}/${fraction.denominator}`;
     } else {
-      const fraction = new Fraction(count - integer);
+      const fraction = new Fraction(newCount - integer);
       return `${integer} ${fraction.numerator}/${fraction.denominator}`;
     }
   }
@@ -130,6 +132,7 @@ export const updateServingsIngredients = (recipe) => {
   // Update count
   document.querySelector('.recipe__info-data--people').textContent =
     recipe.servings;
+
   // Update ingredients
   const countElements = Array.from(document.querySelectorAll('.recipe__count'));
   countElements.forEach((el, i) => {

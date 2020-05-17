@@ -31,7 +31,8 @@ export const renderLike = (like) => {
 };
 
 export const deleteLike = (id) => {
+  // Remove entire li tag (parent element)
   const el = document.querySelector(`.likes__link[href*="${id}"]`)
-    .parentElement; // To remove the entire li tag not just the link add parentEl
+    .parentElement;
   if (el) el.parentElement.removeChild(el);
 };
