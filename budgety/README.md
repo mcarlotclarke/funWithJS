@@ -13,4 +13,4 @@ Budgety is a vanilla Javascript app for budget calculation where you can input i
 
 ## Installation
 
-Load html file onto your browser to run Budgety.
+Load html file onto your browser to run Budgety. Alternatively, you can use [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer).

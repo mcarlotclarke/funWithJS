@@ -1,6 +1,6 @@
 Pig Game - Dice Game
 
-Load html file onto browser and play game by following these rules.
+Load html file onto browser and play game by following these rules. Alternatively, you can use [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer).
 
 # GAME RULES:
 
