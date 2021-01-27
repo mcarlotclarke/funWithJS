@@ -1,2 +1,2 @@
 # funWithJS
-Three fun vanilla Javascript apps.
+Fun vanilla Javascript apps.
