@@ -63,8 +63,7 @@
       position: absolute;
       top: 50%;
       transform-origin: 100%;
-      /* sets default to top to bottom (at 12 position) instead of left to right */
-      transform: rotate(90deg);
+      transform: rotate(90deg); /* sets default to top to bottom (at 12 position) instead of left to right */
       transition: all 0.05s;
       transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
     }
@@ -98,4 +97,6 @@
 </body>
 </html>
 
-<!-- TODO: next, to fix the little jump when the hands reach the 60° mark consider removing the transition all and then adding it again with some if statements, like if hands degrees = the degrees of the 60 mark remove transition otherwise don't -->
+<!-- TODO: next, to fix the little jump when the hands reach the 60° mark consider removing the transition all
+  and then adding it again with some if statements, like if hands degrees = the degrees of the 60 mark
+  remove transition otherwise don't -->

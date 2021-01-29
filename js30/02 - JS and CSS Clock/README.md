@@ -4,20 +4,19 @@ A vanilla JS CSS clock that takes the current time from javascript and updates t
 
 ## What we learn
 
-- Key events
-- Playing audio
-- Listening for the transition end event
-- And if dealing with animations, listening for the animation end event (which works the same way).
+- Working with the Date object
+- Movement with CSS transition/transform
 
 ## Steps
 
 The goal is to apply a rotate to each hands depending on what time it currently is. To start, add to the `.hand` class:
 
-- A `transform-origin` so when we add the rotate it will do so in the x axis and center of the clock.
-- A `transform` rotate to 90° so the hands start at the 12 o'clock position.
+- `transform-origin` so when we add the rotate it will do so in the x axis and center of the clock.
+- `transform` rotate to 90° so the hands start at the 12 o'clock position.
 - `transition` so the hands move smoothly when ticking.
 - `transition-timing-function` this gives the hands an old-fashioned forwards/backwards movement.
-  Remember, you can test/edit your styles directly in the browser and then copy to your CSS if you like them.
+
+Remember, you can test/edit your styles directly in the browser and then copy to your CSS if you like them.
 
 To add the functionality:
 
