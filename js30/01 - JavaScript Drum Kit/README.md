@@ -13,10 +13,14 @@ A basic vanilla JS project that when you click a specific key it plays a sound a
 
 We start with our two main functionalities: play audio and show animation
 
-- To start we focus on listening on a key up event: add event listener to listen on the window
-  To play the audio:
+- To start we focus on listening on a key up event: add event listener to listen on the window.
+
+To play the audio:
+
 - Find/select audio element with the data-key attribute (that is equal to the keycode) - note that we are not using a class instead an attribute selector.
-  To show animation:
+
+To show animation:
+
 - Select the key class and then add the css class 'playing' to it. You will have to also remove it after playing each key using a transition.
   NOTE - You cannot use an arrow function and still use the `this` keyword inside it as such, per removeTransition().
 

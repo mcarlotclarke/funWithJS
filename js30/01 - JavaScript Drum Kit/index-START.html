@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>JS Drum Kit</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.ico">
 </head>
 <body>
 
@@ -58,6 +59,27 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+
+function playSound (e) {
+  const audio = document.querySelector(`audio[data-key='${e.keyCode}'`);
+  const key = document.querySelector(`.key[data-key='${e.keyCode}'`);
+  if (!audio) return; // stop the function from running altogether when there isn't audio for that key
+  audio.currentTime = 0; // rewind to the start so we can play a key in succesion
+  audio.play();
+  key.classList.add('playing'); // add the animation based on adding the css class
+}
+
+function removeTransition (e) {
+  if (e.propertyName !== 'transform') return; // skip it if it is not a transform
+  this.classList.remove('playing');
+}
+
+// to remove animation after pressing keys we want to listen for a transition end for each key
+const keys = document.querySelectorAll('.key');
+keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+// what happens when we press the key, playSound adds sound and animation
+window.addEventListener('keydown', playSound);
 
 </script>
 
