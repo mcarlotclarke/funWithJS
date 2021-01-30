@@ -4,9 +4,9 @@ A basic vanilla JS project that when you click a specific key it plays a sound a
 
 ## What we learn
 
-- Key events
-- Playing audio
-- Listening for the transition end event
+- Key events.
+- Playing audio.
+- Listening for the transition end event.
 - And if dealing with animations, listening for the animation end event (which works the same way).
 
 ## Steps
