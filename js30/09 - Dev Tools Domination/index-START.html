@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Console Tricks!</title>
+</head>
+<body>
+
+  <p onClick="makeGreen()">×BREAK×DOWN×</p>
+
+  <script>
+    const dogs = [{ name: 'Snickers', age: 2 }, { name: 'Hugo', age: 8 }];
+
+    function makeGreen() {
+      const p = document.querySelector('p');
+      p.style.color = '#BADA55';
+      p.style.fontSize = '50px';
+    }
+
+    // Regular
+    console.log('Regular console.log()');
+
+    // Interpolated
+    console.log('This is a traditional way, %s?', 'yes, with the %s')
+
+    // Styled
+    console.log('%c add css styling with %c to start', 'font-size: 50px');
+
+    // warning!
+    console.warn('OH HEAVENS')
+
+    // Error :|
+    console.error('An error...!');
+
+    // Info
+    console.info('This is where I relate some information');
+
+    // Testing
+    const p = document.querySelector('p');
+    console.assert(1 === 2, 'Tsk, tsk, that is not correct');
+    console.assert(p.classList.contains('yikes'), 'That is incorrect');
+
+    // clearing
+    console.clear();
+
+    // Viewing DOM Elements
+    console.log(p);
+    console.dir(p);
+
+    // Grouping together
+    dogs.forEach(dog => {
+      console.group(dog.name);
+      console.log(`This is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.log(`Or ${7 * dog.age} in dog years 🐶`);
+      console.groupEnd(dog.name);
+    })
+    // or with collapse
+    dogs.forEach(dog => {
+      console.groupCollapsed(dog.name);
+      console.log(`This is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.log(`Or ${7 * dog.age} in dog years 🐶`);
+      console.groupEnd(dog.name);
+    })
+
+    // counting - how many times you run/use an element, word, obj, number, etc.
+    console.count('Ice cream forever');
+    console.count('Ice cream forever');
+    console.count('Ice cream forever');
+    console.count('Ice cream I really mean forever');
+    console.count('Ice cream forever');
+    console.count('Ice cream forever');
+    console.count('Ice cream I really mean forever');
+
+    // timing - how long something takes
+    console.time('This is how long it takes to fetch this data'); // starts your timer
+    fetch('http://api.github.com/users/mcarlotclarke')
+      .then(data => data.json())
+      .then(data => {
+        console.timeEnd('This is how long it takes to fetch this data'); // end your timer with same string as start
+        console.log(data);
+      })
+
+      console.table(dogs);
+
+  </script>
+</body>
+</html>
