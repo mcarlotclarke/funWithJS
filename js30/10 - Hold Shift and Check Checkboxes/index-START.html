@@ -53,7 +53,7 @@
    <!--
    The following is a common layout you would see in an email client.
 
-   When a user clicks a checkbox, holds Shift, and then clicks another checkbox a few rows down, all the checkboxes inbetween those two checkboxes should be checked.
+   When a user clicks a checkbox, holds Shift, and then clicks another checkbox a few rows down, all the checkboxes in between those two checkboxes should be checked.
 
   -->
   <div class="inbox">
@@ -96,6 +96,38 @@
   </div>
 
 <script>
+  const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
+
+  let lastChecked;
+
+  function handleCheck (e) {
+    console.log(e);
+    // check if they have the shift key down and selected the checkbox
+    let inBetween = false;
+    if (e.shiftKey && this.checked) {
+      // loop over every checkbox to find first and last checked
+      checkboxes.forEach(checkbox => {
+        console.log(checkbox);
+        // if this is the first or the last checkbox checked
+        if (checkbox === this || checkbox === lastChecked) {
+          // set in between flag to its opposite/true
+          inBetween = !inBetween;
+        }
+        // then check the in between ones
+        if (inBetween){
+          checkbox.checked = true;
+        }
+      })
+    }
+
+    lastChecked = this; // lastChecked equals what we have checked/selected
+  }
+
+  // add a click event to each checkbox - click as oppose to onchange will include keyboard use as well
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('click', handleCheck);
+  })
+
 </script>
 </body>
 </html>
