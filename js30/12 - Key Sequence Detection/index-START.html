@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Key Detection</title>
+  <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
+</head>
+<body>
+  <div>Type in the secret code🍦</div>
+<script>
+  // 2. declare an array to store the pressed keys & your secret string code to find/detect
+  const pressed = [];
+  const secretCode = 'icecream';
+
+  // 1. add a window event listener for when you press any key
+  window.addEventListener('keyup', (e) => {
+    console.log(e.key);
+    // push keys into pressed array
+    pressed.push(e.key);
+    // trim array to the maximum of characters you are looking for
+    pressed.splice(-secretCode.length - 1, pressed.length - secretCode.length);
+    // check for the secret code
+    if(pressed.join('').includes(secretCode)) {
+      console.log('You found it!!! Now go get one!');
+      cornify_add();
+    }
+    console.log(pressed);
+  })
+</script>
+</body>
+</html>
