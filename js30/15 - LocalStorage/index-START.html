@@ -28,7 +28,7 @@
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  const items = [];
+  const items = JSON.parse(localStorage.getItem('items')) || [];
 
   // 1. add input item to items array
   function addItem (e) {
@@ -38,10 +38,11 @@
       text,
       done: false
     }
-    console.log(item);
+
     items.push(item);
     populateList(items, itemsList);
-    this.reset();
+    localStorage.setItem('items', JSON.stringify(items));
+    this.reset(); // clear input
   }
 
   // 2. create html of items list
@@ -54,11 +55,22 @@
       </li>
       `;
     }).join('');
+  }
 
-    console.log(platesList.innerHTML);
+  // set event delegation and persist 'checked/unchecked' state for input items
+  function toggleDone (e) {
+    if (!e.target.matches('input')) return; // skip this unless it is an input
+    const inputElem = e.target;
+    const index = inputElem.dataset.index;
+    items[index].done = !items[index].done;
+    localStorage.setItem('items', JSON.stringify(items));
+    populateList(items, itemsList);
   }
 
   addItems.addEventListener('submit', addItem);
+  itemsList.addEventListener('click', toggleDone);
+  // on page load populate list -> if there are any items otherwise load empty array
+  populateList(items, itemsList);
 
 </script>
 
@@ -67,4 +79,5 @@
 </html>
 
 <!-- Persisting data with local storage and adding event delegation -->
+<!-- Next: add check/uncheck all, delete all buttons -->
 
