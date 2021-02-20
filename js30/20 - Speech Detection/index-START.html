@@ -10,8 +10,40 @@
   </div>
 
 <script>
+  // set SpeechRecognition from different browsers to one variable
   window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
+  const recognition = new SpeechRecognition();
+  // set interimResults so you can see what you are saying typed as you are speaking
+  recognition.interimResults = true;
+
+  // create paragraph element to capture our words
+  let p = document.createElement('p');
+  // grab our 'words' class and append the paragraph element
+  const words = document.querySelector('.words');
+  words.appendChild(p);
+
+  // add result event listener
+  recognition.addEventListener('result', (e) => {
+    const transcript = Array.from(e.results)
+    .map(result => result[0])
+    .map(result => result.transcript)
+    .join('');
+    // add it to the dom
+    p.textContent = transcript;
+    // check if is final to prevent overwriting
+    if (e.results[0].isFinal) {
+      p = document.createElement('p');
+      words.appendChild(p);
+    }
+
+    if (transcript.includes('ice cream')) console.log("🍦🍦🍦🍦🍦");
+  })
+
+  // add an end event listener to continue
+  recognition.addEventListener('end', recognition.start);
+
+  recognition.start();
 
 </script>
 
@@ -40,7 +72,7 @@
       position: relative;
       line-height: 3rem;
     }
-    
+
     p {
       margin: 0 0 3rem;
     }
@@ -59,3 +91,5 @@
 
 </body>
 </html>
+
+<!-- Next time you can add a get weather function/api when a specific weather related word is said in place of ice cream! -->
