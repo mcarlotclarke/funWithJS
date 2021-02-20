@@ -18,7 +18,7 @@
     html {
       font-size: 100px;
     }
-    
+
     body {
       margin: 0;
       font-family: sans-serif;
@@ -59,6 +59,20 @@
     /*Compass: https://thenounproject.com/search/?q=compass&i=592352*/
   </style>
   <script>
+    // grab arrow and speed class
+    const arrow = document.querySelector('.arrow');
+    const speed = document.querySelector('.speed');
+
+    // listen for the user's position
+    navigator.geolocation.watchPosition(data => {
+      console.log(data);
+      speed.textContent = data.coords.speed;
+      arrow.style.transform = `rotate(${data.coords.heading}deg)`;
+    }, (err) => {
+      console.err(err);
+      alert('Hey, please allow!')
+    });
+
   </script>
 </body>
 </html>
