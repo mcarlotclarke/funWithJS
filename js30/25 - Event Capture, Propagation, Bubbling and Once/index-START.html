@@ -17,9 +17,9 @@
   html {
     box-sizing: border-box;
   }
-  
-  *, *:before, *:after { 
-    box-sizing: inherit; 
+
+  *, *:before, *:after {
+    box-sizing: inherit;
   }
 
   div {
@@ -38,10 +38,45 @@
   .three {
     background: coral;
   }
+
+  .button {
+    background-color: #15c3cf;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 40px 40px;
+    padding-top: 5px;
+    transition-duration: 0.4s;
+  }
+
+  .button:hover {
+    background-color: #9ee5eb;
+  }
 </style>
 
-<button></button>
+<button class="button"></button>
 <script>
+  // capture 1, 2, 3 --> bubbling 3, 2, 1
+  const divs = document.querySelectorAll('div');
+  const button = document.querySelector('button');
+
+  function logText(e) {
+    // e.stopPropagation() // stop bubbling this event up
+    console.log(this.classList.value);
+  }
+
+  // adding options like capture: true, fires the event on the way down if you will, rather than on the way up (bubbling)
+  divs.forEach(div => div.addEventListener('click', logText, {
+    capture: false,
+    once: true
+  }))
+
+  // once option only fires, well, once
+  button.addEventListener('click', () => {
+    console.log('Click!!')
+  }, {
+    once: true
+  })
 
 </script>
 </body>
