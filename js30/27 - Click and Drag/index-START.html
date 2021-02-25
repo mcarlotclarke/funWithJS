@@ -35,6 +35,39 @@
   </div>
 
 <script>
+  const slider = document.querySelector('.items');
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  slider.addEventListener('mousedown', (e) => {
+    isDown = true;
+    slider.classList.add('active');
+    // where is the cursor (mouse) initially when you click down
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+  })
+
+  slider.addEventListener('mouseleave', () => {
+    isDown = false;
+    slider.classList.remove('active');
+  })
+
+  slider.addEventListener('mouseup', () => {
+    isDown = false;
+    slider.classList.remove('active');
+  })
+
+  slider.addEventListener('mousemove', (e) => {
+    if(!isDown) return; // stop the function from running
+    e.preventDefault();
+    // where is the cursor when moving left to right, recalculate every time you move the mouse
+    const x = e.pageX - slider.offsetLeft;
+    // multiply value for increased movement
+    const walk = (x - startX) * 3;
+    slider.scrollLeft = scrollLeft - walk;
+  })
+
 </script>
 
   </body>
