@@ -36,6 +36,58 @@
   const holes = document.querySelectorAll('.hole');
   const scoreBoard = document.querySelector('.score');
   const moles = document.querySelectorAll('.mole');
+  // set variable to change same hole from randomly appearing, length of time up and score
+  let lastHole;
+  let timeUp = false;
+  let score = 0;
+
+  // which hole and for how long mole pops out of is random
+  function randomTime(min, max) {
+    return Math.round(Math.random() * (max - min) + min);
+  }
+
+  function randomHole(holes) {
+    const idx = Math.floor(Math.random() * holes.length);
+    const hole = holes[idx];
+    if (hole === lastHole) {
+      console.log('Nope, same hole again!');
+      return randomHole(holes);
+    }
+
+    lastHole = hole;
+    return hole;
+  }
+
+  function popUp() {
+    const time = randomTime(200, 1000);
+    const hole = randomHole(holes);
+    hole.classList.add('up');
+    // after they pop up, they need to pop back down
+    setTimeout(() => {
+      hole.classList.remove('up');
+      // if time is not up (or game is not over) keep running
+      if (!timeUp) popUp();
+    }, time);
+  }
+
+  // game ends after 10 seconds
+  function startGame() {
+    scoreBoard.textContent = 0;
+    timeUp = false;
+    score = 0;
+    popUp();
+    setTimeout(() => timeUp = true, 10000);
+  }
+
+  function bonk(e) {
+    // check if someone is faking a click
+    if (!e.isTrusted) return;
+    score++;
+    this.classList.remove('up');
+    scoreBoard.textContent = score;
+  }
+
+  moles.forEach((mole) => mole.addEventListener('click', bonk));
 
 </script>
 </body>
