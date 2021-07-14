@@ -1,2 +1,2 @@
-# fun with JS
+# Fun with JS
 Fun vanilla Javascript apps.
